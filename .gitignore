@@ -1,0 +1,41 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Compiled Go packages
+*.P
+*.test
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Build results
+bin/
+out/
+
+# Dependency directories (remove the ones that you don't use)
+vendor/
+
+# Compiled Go binary
+*.exe
+
+# Debugging and profiling files
+/debug
+/profile
+
+# Compiled C++ and CGO files
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+# Generated files by the protobuf compiler
+*.pb.go
+
+# End of Visual Studio Code specific files
+.vscode/
