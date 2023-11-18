@@ -9,7 +9,9 @@ import (
 )
 
 type AppService struct {
-	UserService domain.UserService
+	UserService  domain.UserService
+	RoleService  domain.RoleService
+	GroupService domain.GroupService
 }
 
 // NewAppService creates a new instance of AppService with the specified database configuration.
@@ -22,13 +24,17 @@ func NewAppService(ctx context.Context, dbConfig db.DatabaseConfig) (*AppService
 	}
 
 	// Create repositories and services
-	userRepo := mongo_helper.NewMongoDBRepository(client, dbConfig.DatabaseName, "Users")
+	repo := mongo_helper.NewMongoDBRepository(client, dbConfig.DatabaseName)
 
-	userService := NewUserService(userRepo)
+	userService := NewUserService(repo)
+	RoleService := NewRoleService(repo)
+	GroupService := NewGroupService(repo)
 
 	// Create the AppService instance
 	appService := &AppService{
-		UserService: userService}
+		UserService:  userService,
+		RoleService:  RoleService,
+		GroupService: GroupService}
 
 	return appService, nil
 }

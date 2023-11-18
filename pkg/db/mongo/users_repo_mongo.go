@@ -13,7 +13,10 @@ import (
 
 func (r *MongoDBRepository) CreateUser(ctx context.Context, user *domain.User) error {
 	_, err := r.userCollection.InsertOne(ctx, user)
-	return err
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (r *MongoDBRepository) GetUserByID(ctx context.Context, id primitive.ObjectID) (*domain.User, error) {

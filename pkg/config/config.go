@@ -10,7 +10,6 @@ import (
 // Config represents the configuration structure for the application.
 type Config struct {
 	DatabaseConfig db.DatabaseConfig `json:"databaseConfig"`
-	MongoDBURI     string            `json:"mongoDBURI"`
 	DatabaseName   string            `json:"databaseName"`
 }
 
