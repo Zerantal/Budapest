@@ -8,10 +8,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
-	"budapest/pkg/domain"
+	"budapest/pkg/model"
 )
 
-func (r *MongoDBRepository) CreateUser(ctx context.Context, user *domain.User) error {
+func (r *MongoDBRepository) CreateUser(ctx context.Context, user *model.User) error {
 	_, err := r.userCollection.InsertOne(ctx, user)
 	if err != nil {
 		return err
@@ -19,8 +19,8 @@ func (r *MongoDBRepository) CreateUser(ctx context.Context, user *domain.User) e
 	return nil
 }
 
-func (r *MongoDBRepository) GetUserByID(ctx context.Context, id primitive.ObjectID) (*domain.User, error) {
-	var user domain.User
+func (r *MongoDBRepository) GetUserByID(ctx context.Context, id primitive.ObjectID) (*model.User, error) {
+	var user model.User
 	filter := bson.M{"_id": id}
 	err := r.userCollection.FindOne(ctx, filter).Decode(&user)
 	if err == mongo.ErrNoDocuments {
@@ -32,8 +32,8 @@ func (r *MongoDBRepository) GetUserByID(ctx context.Context, id primitive.Object
 	return &user, nil
 }
 
-func (r *MongoDBRepository) GetUserByUsername(ctx context.Context, username string) (*domain.User, error) {
-	var user domain.User
+func (r *MongoDBRepository) GetUserByUsername(ctx context.Context, username string) (*model.User, error) {
+	var user model.User
 	filter := bson.M{"username": username}
 	err := r.userCollection.FindOne(ctx, filter).Decode(&user)
 	if err == mongo.ErrNoDocuments {
@@ -45,7 +45,7 @@ func (r *MongoDBRepository) GetUserByUsername(ctx context.Context, username stri
 	return &user, nil
 }
 
-func (r *MongoDBRepository) UpdateUser(ctx context.Context, user *domain.User, upsert bool) error {
+func (r *MongoDBRepository) UpdateUser(ctx context.Context, user *model.User, upsert bool) error {
 	filter := bson.M{"_id": user.ID}
 	update := bson.M{
 		"$set": user,

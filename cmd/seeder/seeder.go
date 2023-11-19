@@ -10,18 +10,18 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
-	"budapest/pkg/app"
 	"budapest/pkg/config"
-	mongo_helper "budapest/pkg/db/mongo"
-	"budapest/pkg/domain"
+	"budapest/pkg/model"
+	mongo_helper "budapest/pkg/repo/mongo"
+	"budapest/pkg/service"
 )
 
-func seedAdminUser(appService *app.AppService) error {
+func seedAdminUser(appService *service.AppService) error {
 	// Create a context for the database operation
 	ctx := context.TODO() // Replace with an appropriate context if needed
 
 	// Define the admin user data
-	adminUser := &domain.User{
+	adminUser := &model.User{
 		ID:       primitive.NewObjectID(),
 		Username: "admin",
 		Email:    "admin@example.com",
@@ -70,7 +70,7 @@ func main() {
 	defer mongo_helper.CloseMongoDBConnection(client)
 
 	// Create an instance of AppService
-	appService, err := app.NewAppService(ctx, cfg.DatabaseConfig)
+	appService, err := service.NewAppService(ctx, cfg.DatabaseConfig)
 	if err != nil {
 		log.Fatalf("Failed to initialize AppService: %v", err)
 	}

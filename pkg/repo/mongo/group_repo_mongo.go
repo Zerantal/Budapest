@@ -8,11 +8,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"budapest/pkg/domain"
+	"budapest/pkg/model"
 )
 
 // CreateGroup creates a new group in the MongoDB database.
-func (r *MongoDBRepository) CreateGroup(ctx context.Context, group *domain.Group) error {
+func (r *MongoDBRepository) CreateGroup(ctx context.Context, group *model.Group) error {
 	_, err := r.groupCollection.InsertOne(ctx, group)
 	if err != nil {
 		return err
@@ -21,8 +21,8 @@ func (r *MongoDBRepository) CreateGroup(ctx context.Context, group *domain.Group
 }
 
 // GetGroupByID retrieves a group by its ObjectID.
-func (r *MongoDBRepository) GetGroupByID(ctx context.Context, groupID primitive.ObjectID) (*domain.Group, error) {
-	var group domain.Group
+func (r *MongoDBRepository) GetGroupByID(ctx context.Context, groupID primitive.ObjectID) (*model.Group, error) {
+	var group model.Group
 	err := r.groupCollection.FindOne(ctx, bson.M{"_id": groupID}).Decode(&group)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -34,8 +34,8 @@ func (r *MongoDBRepository) GetGroupByID(ctx context.Context, groupID primitive.
 }
 
 // GetGroupByName retrieves a group by its name.
-func (r *MongoDBRepository) GetGroupByName(ctx context.Context, name string) (*domain.Group, error) {
-	var group domain.Group
+func (r *MongoDBRepository) GetGroupByName(ctx context.Context, name string) (*model.Group, error) {
+	var group model.Group
 	err := r.groupCollection.FindOne(ctx, bson.M{"name": name}).Decode(&group)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -47,7 +47,7 @@ func (r *MongoDBRepository) GetGroupByName(ctx context.Context, name string) (*d
 }
 
 // UpdateGroup updates an existing group in the MongoDB database.
-func (r *MongoDBRepository) UpdateGroup(ctx context.Context, group *domain.Group) error {
+func (r *MongoDBRepository) UpdateGroup(ctx context.Context, group *model.Group) error {
 	update := bson.M{"$set": group}
 	_, err := r.groupCollection.UpdateOne(ctx, bson.M{"_id": group.ID}, update)
 	if err != nil {

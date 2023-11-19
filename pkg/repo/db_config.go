@@ -1,4 +1,4 @@
-package db
+package repo
 
 // DatabaseConfig holds configuration for database connections.
 type DatabaseConfig struct {

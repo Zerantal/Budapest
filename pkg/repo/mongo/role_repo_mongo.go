@@ -8,10 +8,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"budapest/pkg/domain"
+	"budapest/pkg/model"
 )
 
-func (r *MongoDBRepository) CreateRole(ctx context.Context, role *domain.Role) error {
+func (r *MongoDBRepository) CreateRole(ctx context.Context, role *model.Role) error {
 	_, err := r.roleCollection.InsertOne(ctx, role)
 	if err != nil {
 		return err
@@ -19,8 +19,8 @@ func (r *MongoDBRepository) CreateRole(ctx context.Context, role *domain.Role) e
 	return nil
 }
 
-func (r *MongoDBRepository) GetRoleByID(ctx context.Context, roleID primitive.ObjectID) (*domain.Role, error) {
-	var role domain.Role
+func (r *MongoDBRepository) GetRoleByID(ctx context.Context, roleID primitive.ObjectID) (*model.Role, error) {
+	var role model.Role
 	err := r.roleCollection.FindOne(ctx, bson.M{"_id": roleID}).Decode(&role)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -31,8 +31,8 @@ func (r *MongoDBRepository) GetRoleByID(ctx context.Context, roleID primitive.Ob
 	return &role, nil
 }
 
-func (r *MongoDBRepository) GetRoleByName(ctx context.Context, name string) (*domain.Role, error) {
-	var role domain.Role
+func (r *MongoDBRepository) GetRoleByName(ctx context.Context, name string) (*model.Role, error) {
+	var role model.Role
 	err := r.roleCollection.FindOne(ctx, bson.M{"name": name}).Decode(&role)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -43,7 +43,7 @@ func (r *MongoDBRepository) GetRoleByName(ctx context.Context, name string) (*do
 	return &role, nil
 }
 
-func (r *MongoDBRepository) UpdateRole(ctx context.Context, role *domain.Role) error {
+func (r *MongoDBRepository) UpdateRole(ctx context.Context, role *model.Role) error {
 	update := bson.M{"$set": role}
 	_, err := r.roleCollection.UpdateOne(ctx, bson.M{"_id": role.ID}, update)
 	if err != nil {

@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"budapest/pkg/db"
+	"budapest/pkg/repo"
 )
 
 // Config represents the configuration structure for the application.
 type Config struct {
-	DatabaseConfig db.DatabaseConfig `json:"databaseConfig"`
-	DatabaseName   string            `json:"databaseName"`
+	DatabaseConfig repo.DatabaseConfig `json:"databaseConfig"`
+	DatabaseName   string              `json:"databaseName"`
 }
 
 // LoadConfig reads the configuration from a JSON file.
