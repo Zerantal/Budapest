@@ -6,7 +6,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"budapest/pkg/model"
 )
@@ -45,18 +44,13 @@ func (r *MongoDBRepository) GetUserByUsername(ctx context.Context, username stri
 	return &user, nil
 }
 
-func (r *MongoDBRepository) UpdateUser(ctx context.Context, user *model.User, upsert bool) error {
+func (r *MongoDBRepository) UpdateUser(ctx context.Context, user *model.User) error {
 	filter := bson.M{"_id": user.ID}
 	update := bson.M{
 		"$set": user,
 	}
 
-	opts := options.Update()
-	if upsert {
-		opts.SetUpsert(true)
-	}
-
-	_, err := r.userCollection.UpdateOne(ctx, filter, update, opts)
+	_, err := r.userCollection.UpdateOne(ctx, filter, update)
 	return err
 }
 

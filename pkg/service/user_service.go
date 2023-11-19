@@ -46,7 +46,7 @@ func (s *UserService) GetUserByUsername(ctx context.Context, username string) (*
 }
 
 // UpdateUser updates an existing user.
-func (s *UserService) UpdateUser(ctx context.Context, updatedUser *model.User, upsert bool) error {
+func (s *UserService) UpdateUser(ctx context.Context, updatedUser *model.User) error {
 	// Validate user data if needed
 	if updatedUser == nil {
 		return errors.New("updated user data is nil")
@@ -55,7 +55,7 @@ func (s *UserService) UpdateUser(ctx context.Context, updatedUser *model.User, u
 	// Add any additional validation logic here
 
 	// Update the user in the repository
-	return s.userRepo.UpdateUser(ctx, updatedUser, upsert)
+	return s.userRepo.UpdateUser(ctx, updatedUser)
 }
 
 // DeleteUser deletes a user by their unique ID.

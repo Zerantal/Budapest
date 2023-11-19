@@ -8,34 +8,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
-
 	"budapest/pkg/config"
-	"budapest/pkg/model"
 	mongo_helper "budapest/pkg/repo/mongo"
+	"budapest/pkg/repo/seeder"
 	"budapest/pkg/service"
 )
-
-func seedAdminUser(appService *service.AppService) error {
-	// Create a context for the database operation
-	ctx := context.TODO() // Replace with an appropriate context if needed
-
-	// Define the admin user data
-	adminUser := &model.User{
-		ID:       primitive.NewObjectID(),
-		Username: "admin",
-		Email:    "admin@example.com",
-		Password: "adminpassword", // Password should be securely hashed in a real scenario
-	}
-
-	// Create the admin user using the UserService
-	if err := appService.UserService.CreateUser(ctx, adminUser); err != nil {
-		return err
-	}
-
-	fmt.Println("Admin user seeded successfully.")
-	return nil
-}
 
 func main() {
 	// Create a top-level context for the application
@@ -76,7 +53,7 @@ func main() {
 	}
 
 	// Seed the admin user
-	if err := seedAdminUser(appService); err != nil {
+	if err := seeder.SeedEntities(ctx, appService); err != nil {
 		log.Fatalf("Failed to seed admin user: %v", err)
 	}
 
