@@ -11,6 +11,9 @@ func SeedEntities(ctx context.Context, appService *service.AppService) error {
 		return err
 	}
 
-	// Additional seeds for other entities can be added here
+	if err := SeedWebPageTemplates(ctx, appService); err != nil {
+		return err
+	}
+
 	return nil
 }

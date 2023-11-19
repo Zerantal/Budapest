@@ -27,10 +27,11 @@ func CloseMongoDBConnection(client *mongo.Client) {
 
 // MongoDBRepository represents a MongoDB implementation of the UserRepository interface.
 type MongoDBRepository struct {
-	client          *mongo.Client
-	userCollection  *mongo.Collection
-	roleCollection  *mongo.Collection
-	groupCollection *mongo.Collection
+	client                    *mongo.Client
+	userCollection            *mongo.Collection
+	roleCollection            *mongo.Collection
+	groupCollection           *mongo.Collection
+	WebPageTemplateCollection *mongo.Collection
 }
 
 func NewMongoDBRepository(client *mongo.Client, dbName string) *MongoDBRepository {
@@ -38,10 +39,12 @@ func NewMongoDBRepository(client *mongo.Client, dbName string) *MongoDBRepositor
 	userCollection := db.Collection("users")
 	roleCollection := db.Collection("roles")
 	groupCollection := db.Collection("groups")
+	WebPageTemplateCollection := db.Collection("web_page_templates")
 	return &MongoDBRepository{
-		client:          client,
-		userCollection:  userCollection,
-		roleCollection:  roleCollection,
-		groupCollection: groupCollection,
+		client:                    client,
+		userCollection:            userCollection,
+		roleCollection:            roleCollection,
+		groupCollection:           groupCollection,
+		WebPageTemplateCollection: WebPageTemplateCollection,
 	}
 }

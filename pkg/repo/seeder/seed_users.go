@@ -2,7 +2,7 @@ package seeder
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"budapest/pkg/model"
 	"budapest/pkg/service"
@@ -15,8 +15,7 @@ func seedAdminUser(ctx context.Context, appService *service.AppService) error {
 	// Check if admin user already exists
 	existingAdminUser, err := appService.UserService.GetUserByUsername(ctx, "admin")
 	if err != nil {
-
-		// Handle the error (considering that a 'not found' error is expected if the user doesn't exist)
+		return err
 	}
 
 	adminUser := &model.User{
@@ -31,12 +30,12 @@ func seedAdminUser(ctx context.Context, appService *service.AppService) error {
 		if err := appService.UserService.UpdateUser(ctx, adminUser); err != nil {
 			return err
 		}
-		fmt.Println("Admin user updated successfully.")
+		log.Println("Admin user updated successfully.")
 	} else {
 		if err := appService.UserService.CreateUser(ctx, adminUser); err != nil {
 			return err
 		}
-		fmt.Println("Admin user created successfully.")
+		log.Println("Admin user created successfully.")
 	}
 
 	return nil

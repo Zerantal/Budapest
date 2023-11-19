@@ -9,9 +9,10 @@ import (
 )
 
 type AppService struct {
-	UserService  interfaces.UserService
-	RoleService  interfaces.RoleService
-	GroupService interfaces.GroupService
+	UserService            interfaces.UserService
+	RoleService            interfaces.RoleService
+	GroupService           interfaces.GroupService
+	WebPageTemplateService interfaces.WebPageTemplateService
 }
 
 // NewAppService creates a new instance of AppService with the specified database configuration.
@@ -29,12 +30,14 @@ func NewAppService(ctx context.Context, dbConfig repo.DatabaseConfig) (*AppServi
 	userService := NewUserService(repo)
 	RoleService := NewRoleService(repo)
 	GroupService := NewGroupService(repo)
+	WebPageTemplateService := NewWebPageTemplateService(repo)
 
 	// Create the AppService instance
 	appService := &AppService{
-		UserService:  userService,
-		RoleService:  RoleService,
-		GroupService: GroupService}
+		UserService:            userService,
+		RoleService:            RoleService,
+		GroupService:           GroupService,
+		WebPageTemplateService: WebPageTemplateService}
 
 	return appService, nil
 }
